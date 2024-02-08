@@ -1,0 +1,44 @@
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+
+		<title>{%block title%}URL Shortener{%endblock%}</title>
+
+		<link
+			rel="stylesheet"
+			href="{{ url_for('static', filename='styles.css') }}"
+		/>
+		<link
+			rel="shortcut icon"
+			href="{{ url_for('static', filename='favico.png') }}"
+		/>
+	</head>
+
+	<body>
+		{% for category, message in get_flashed_messages(with_categories=True) %}
+		<p class="message {{ category }}">{{ message }}</p>
+		{% endfor %}
+
+		<div class="navbar">
+			<div></div>
+
+			<div class="navbar-buttons">
+				<div class="navbar-item">
+					<a href="{{ url_for('index') }}">Home</a>
+				</div>
+			</div>
+
+			<div class="navbar-login">
+				{% if 'user' in session %} Uživatel: {{session['user']}}. {% else %}
+				Nikdo není příhlášen {% endif %}
+
+				<div class="navbar-login-buttons">
+					<a href="{{url_for('login')}}">LOGIN</a>
+					<a href="{{ url_for('registration') }}">REGISTRACE</a>
+				</div>
+			</div>
+		</div>
+
+		{% block content %} {% endblock %}
+	</body>
+</html>

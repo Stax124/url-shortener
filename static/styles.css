@@ -1,0 +1,28 @@
+.navbar {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.navbar-item {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	min-width: 96px;
+	margin: 0 10px;
+	border: 1px solid black;
+	border-radius: 8px;
+	padding: 5px;
+}
+
+.navbar-item a {
+	text-decoration: none;
+	color: black;
+}
+
+.navbar-login {
+	padding: 8px;
+	border: 1px solid black;
+	border-radius: 8px;
+}
