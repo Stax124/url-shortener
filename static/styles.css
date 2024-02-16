@@ -1,28 +1,83 @@
+body {
+  margin: 0;
+}
+
 .navbar {
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .navbar-item {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	min-width: 96px;
-	margin: 0 10px;
-	border: 1px solid black;
-	border-radius: 8px;
-	padding: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 96px;
+  margin: 0 10px;
+  border: 1px solid black;
+  border-radius: 8px;
+  padding: 5px;
 }
 
 .navbar-item a {
-	text-decoration: none;
-	color: black;
+  text-decoration: none;
+  color: black;
 }
 
 .navbar-login {
-	padding: 8px;
-	border: 1px solid black;
-	border-radius: 8px;
+  padding: 8px;
+  border: 1px solid black;
+  border-radius: 8px;
+}
+
+.login-holder {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-form {
+  max-width: 250px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.message {
+  border: 1px solid black;
+  border-radius: 8px;
+  padding: 6px;
+}
+
+/* Messages */
+.message.success {
+  background-color: lightgreen;
+  color: black;
+}
+
+.message.success::before {
+  content: "Success: ";
+  font-weight: bold;
+}
+
+.message.error {
+  background-color: lightcoral;
+  color: black;
+}
+
+.message.error::before {
+  content: "Error: ";
+  font-weight: bold;
+}
+
+.message.warning {
+  background-color: lightyellow;
+  color: black;
+}
+
+.message.warning::before {
+  content: "Warning: ";
+  font-weight: bold;
 }

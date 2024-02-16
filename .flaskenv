@@ -1,2 +1,3 @@
 FLASK_APP=webface
 FLASK_ENV=production
+FLASK_DEBUG=1

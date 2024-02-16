@@ -71,10 +71,15 @@ def registration_post():
     username = request.form.get("username", "")
     password1 = request.form.get("password1", "")
     password2 = request.form.get("password2", "")
+
+    print(f"{username=}, {password1=}, {password2=}")
+
     if len(username) < 5:
         flash("Name needs to be at least 5 characters!", "error")
+        return redirect(url_for("registration"))
     if len(password1) < 8:
         flash("Password needs to be at least 8 characters!", "error")
+        return redirect(url_for("registration"))
     if password1 != password2:
         flash("Password validation failed", "error")
         return redirect(url_for("registration"))
@@ -88,7 +93,7 @@ def registration_post():
     except IntegrityError:
         flash("Uživatel již existuje!", "error")
 
-    return redirect(url_for("registration"))
+    return redirect(url_for("login"))
 
 
 @app.route("/logout", methods=["GET"])

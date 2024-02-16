@@ -1,9 +1,8 @@
 {
-	"files.associations": {
-		"*.html": "django-html"
-	},
-	"emmet.includeLanguages": {
-		"jinja-html": "html",
-		"vue-html": "html"
-	}
+  "files.associations": {
+    "*.html": "jinja-html"
+  },
+  "emmet.includeLanguages": {
+    "jinja-html": "html"
+  }
 }
