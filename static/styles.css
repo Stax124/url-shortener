@@ -103,3 +103,33 @@ body {
   align-items: center;
   gap: 6px;
 }
+
+.url-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.url-table th {
+  border: 1px solid black;
+  padding: 8px;
+  text-align: left;
+}
+
+.url-table td {
+  border: 1px solid black;
+  padding: 8px;
+  text-align: left;
+}
+
+.url-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.url-table tr:hover {
+  background-color: #ddd;
+}
+
+.url-table th {
+  background-color: #747474;
+  color: white;
+}

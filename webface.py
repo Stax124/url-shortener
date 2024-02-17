@@ -143,14 +143,20 @@ def redirect_to_full_url(short_url):
             "SELECT full_url FROM url WHERE short_url=?", [short_url]
         )
         result = result.fetchone()
+
+        # Increment url.clicks by 1
+        cursor.execute(
+            "UPDATE url SET clicks = clicks + 1 WHERE short_url=?", [short_url]
+        )
+
         if result:
             full_url = result[0]
             return redirect(full_url)
         else:
-            return redirect(url_for("404.html"))
+            return redirect(url_for("page_not_found"))
 
 
-@app.route("/404.html", methods=["GET"])
+@app.route("/404/", methods=["GET"])
 def page_not_found():
     return render_template("404.html")
 
@@ -170,7 +176,8 @@ def my_urls():
 
     with SQLite("data.sqlite") as cursor:
         result = cursor.execute(
-            "SELECT short_url, full_url FROM url WHERE generated_by=?", [user_id]
+            "SELECT short_url, full_url, clicks FROM url WHERE generated_by=?",
+            [user_id],
         )
         result = result.fetchall()
         return render_template("my-urls.html", urls=result)
