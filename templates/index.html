@@ -1,4 +1,17 @@
 {% extends "base.html" %} {% block content %}
 <h1>URL Shortener</h1>
 <p>Welcome to the home page!</p>
+
+<div>
+  {% if short_url %}
+  <div class="short-url-container">
+    <p>Your short URL: <a href="{{ short_url }}">{{ short_url }}</a></p>
+  </div>
+  {% endif %}
+
+  <form action="/generate-url" method="post">
+    <input type="text" name="url" placeholder="Enter URL" />
+    <button type="submit">Generate</button>
+  </form>
+</div>
 {% endblock %}

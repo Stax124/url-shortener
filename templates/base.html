@@ -16,24 +16,28 @@
 
   <body>
     <div class="navbar">
-      <div></div>
-
       <div class="navbar-buttons">
         <div class="navbar-item">
           <a href="{{ url_for('index') }}">Home</a>
         </div>
+        <div class="navbar-item">
+          <a href="{{ url_for('my_urls') }}">My URLs</a>
+        </div>
       </div>
 
       <div class="navbar-login">
-        {% if 'user' in session %} Uživatel: {{session['user']}}. {% else %}
-        Nikdo není příhlášen {% endif %}
+        {% if 'user' in session %}
+        <p class="navbar-login-user">{{session['user']}}</p>
+        {% endif %}
 
         <div class="navbar-login-buttons">
           {% if 'user' in session %}
-          <a href="{{ url_for('logout') }}">LOGOUT</a>
+          <a class="login-link-button" href="{{ url_for('logout') }}">LOGOUT</a>
           {% else %}
-          <a href="{{url_for('login')}}">LOGIN</a>
-          <a href="{{ url_for('registration') }}">REGISTRACE</a>
+          <a class="login-link-button" href="{{url_for('login')}}">LOGIN</a>
+          <a class="login-link-button" href="{{ url_for('registration') }}"
+            >REGISTRACE</a
+          >
           {% endif %}
         </div>
       </div>

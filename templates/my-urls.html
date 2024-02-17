@@ -1,0 +1,25 @@
+{% extends "base.html" %} {% block content %}
+<h1>Your short URLs</h1>
+
+{% if urls %}
+<table class="table">
+  <thead>
+    <tr>
+      <th>Original URL</th>
+      <th>Short URL</th>
+      <th>Clicks</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for url in urls %}
+    <tr>
+      <td>{{ url.full_url }}</td>
+      <td><a href="{{ url.short_url }}">{{ url.short_url }}</a></td>
+      <td>{{ url.clicks }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p>You have no short URLs yet.</p>
+{% endif %} {% endblock %}

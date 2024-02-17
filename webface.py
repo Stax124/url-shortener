@@ -1,5 +1,7 @@
 import functools
+import random
 from sqlite3 import IntegrityError
+from typing import Union
 
 from flask import Flask, flash, redirect, render_template, request, session, url_for
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -9,9 +11,6 @@ from sqlitewrap import SQLite
 app = Flask(__name__)
 app.secret_key = b"totoj e zceLa n@@@hodny retezec nejlep os.urandom(24)"
 app.secret_key = b"x6\x87j@\xd3\x88\x0e8\xe8pM\x13\r\xafa\x8b\xdbp\x8a\x1f\xd41\xb8"
-
-
-slova = ("Super", "Perfekt", "Úža", "Flask")
 
 
 def prihlasit(function):
@@ -27,7 +26,9 @@ def prihlasit(function):
 
 @app.route("/", methods=["GET"])
 def index():
-    return render_template("index.html")
+    short_url = request.args.get("short_url")
+
+    return render_template("index.html", short_url=short_url)
 
 
 @app.route("/login", methods=["GET"])
@@ -96,7 +97,80 @@ def registration_post():
     return redirect(url_for("login"))
 
 
+def generate_short_url():
+    chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+    return "".join(random.choices(chars, k=8))
+
+
+@app.route("/generate-url", methods=["POST"])
+def generate_url():
+    user_id: Union[int, None] = None
+
+    full_url = request.form.get("url")
+    short_url = generate_short_url()
+
+    if "user" in session:
+        username = session["user"]
+        with SQLite("data.sqlite") as cursor:
+            user_result = cursor.execute("SELECT * FROM user WHERE login=?", [username])
+            user_result = user_result.fetchone()
+            if user_result:
+                user_id = user_result[0]
+
+            else:
+                flash("User not found!", "error")
+                return redirect(url_for("index"))
+
+    with SQLite("data.sqlite") as cursor:
+        cursor.execute(
+            "INSERT INTO url (full_url, short_url, generated_by) VALUES (?,?,?)",
+            [full_url, short_url, user_id],
+        )
+
+    return redirect(url_for("index", short_url=request.url_root + short_url))
+
+
 @app.route("/logout", methods=["GET"])
 def logout():
     session.pop("user", None)
     return redirect(url_for("index"))
+
+
+@app.route("/<short_url>", methods=["GET"])
+def redirect_to_full_url(short_url):
+    with SQLite("data.sqlite") as cursor:
+        result = cursor.execute(
+            "SELECT full_url FROM url WHERE short_url=?", [short_url]
+        )
+        result = result.fetchone()
+        if result:
+            full_url = result[0]
+            return redirect(full_url)
+        else:
+            return redirect(url_for("404.html"))
+
+
+@app.route("/404.html", methods=["GET"])
+def page_not_found():
+    return render_template("404.html")
+
+
+@prihlasit
+@app.route("/my-urls", methods=["GET"])
+def my_urls():
+    username = session["user"]
+    with SQLite("data.sqlite") as cursor:
+        user_result = cursor.execute("SELECT * FROM user WHERE login=?", [username])
+        user_result = user_result.fetchone()
+        if user_result:
+            user_id = user_result[0]
+        else:
+            flash("User not found!", "error")
+            return redirect(url_for("index"))
+
+    with SQLite("data.sqlite") as cursor:
+        result = cursor.execute(
+            "SELECT short_url, full_url FROM url WHERE generated_by=?", [user_id]
+        )
+        result = result.fetchall()
+        return render_template("my-urls.html", urls=result)

@@ -3,6 +3,7 @@ body {
 }
 
 .navbar {
+  margin-top: 4px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -14,7 +15,6 @@ body {
   justify-content: center;
   align-items: center;
   min-width: 96px;
-  margin: 0 10px;
   border: 1px solid black;
   border-radius: 8px;
   padding: 5px;
@@ -26,6 +26,15 @@ body {
 }
 
 .navbar-login {
+  display: flex;
+  flex-direction: row;
+  padding: 8px;
+  border-radius: 8px;
+}
+
+.login-link-button {
+  text-decoration: none;
+  color: black;
   padding: 8px;
   border: 1px solid black;
   border-radius: 8px;
@@ -80,4 +89,17 @@ body {
 .message.warning::before {
   content: "Warning: ";
   font-weight: bold;
+}
+
+.navbar-login-user {
+  padding: 0px 8px;
+  margin: 0;
+  color: green;
+}
+
+.navbar-buttons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
 }
