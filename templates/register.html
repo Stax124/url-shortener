@@ -1,11 +1,30 @@
 {% extends 'base.html' %} {% block content %}
 <form action="/register" method="post">
   <div class="login-holder">
+    <div class="login-header">
+      <h2>Register</h2>
+    </div>
+
     <div class="login-form">
-      <input type="username" name="username" placeholder="username" />
-      <input type="password" name="password1" placeholder="password" />
-      <input type="password" name="password2" placeholder="repeat password" />
-      <button type="submit">Register</button>
+      <input
+        type="username"
+        name="username"
+        placeholder="username"
+        class="login-input"
+      />
+      <input
+        type="password"
+        name="password1"
+        placeholder="password"
+        class="login-input"
+      />
+      <input
+        type="password"
+        name="password2"
+        placeholder="repeat password"
+        class="login-input"
+      />
+      <button type="submit" class="login-button">Register</button>
     </div>
   </div>
 </form>

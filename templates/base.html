@@ -15,6 +15,10 @@
   </head>
 
   <body>
+    {% for category, message in get_flashed_messages(with_categories=True) %}
+    <p class="message {{ category }}">{{ message }}</p>
+    {% endfor %}
+
     <div class="navbar">
       <div class="navbar-buttons">
         <div class="navbar-item">
@@ -32,19 +36,17 @@
 
         <div class="navbar-login-buttons">
           {% if 'user' in session %}
-          <a class="login-link-button" href="{{ url_for('logout') }}">LOGOUT</a>
+          <a class="login-link-button" href="{{ url_for('logout') }}">Logout</a>
           {% else %}
-          <a class="login-link-button" href="{{url_for('login')}}">LOGIN</a>
+          <a class="login-link-button" href="{{url_for('login')}}">Login</a>
           <a class="login-link-button" href="{{ url_for('registration') }}"
-            >REGISTRACE</a
+            >Register</a
           >
           {% endif %}
         </div>
       </div>
     </div>
 
-    {% for category, message in get_flashed_messages(with_categories=True) %}
-    <p class="message {{ category }}">{{ message }}</p>
-    {% endfor %} {% block content %} {% endblock %}
+    {% block content %} {% endblock %}
   </body>
 </html>

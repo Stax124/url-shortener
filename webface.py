@@ -161,8 +161,8 @@ def page_not_found():
     return render_template("404.html")
 
 
-@prihlasit
 @app.route("/my-urls", methods=["GET"])
+@prihlasit
 def my_urls():
     username = session["user"]
     with SQLite("data.sqlite") as cursor:
