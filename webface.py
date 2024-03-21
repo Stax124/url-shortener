@@ -1,5 +1,7 @@
 import functools
 import random
+import uuid
+from pathlib import Path
 from sqlite3 import IntegrityError
 from typing import Union
 
@@ -181,3 +183,43 @@ def my_urls():
         )
         result = result.fetchall()
         return render_template("my-urls.html", urls=result)
+
+
+@app.route("/upload", methods=["GET"])
+def upload():
+    return render_template("upload.html")
+
+
+@app.route("/upload", methods=["POST"])
+def upload_post():
+    if "file" not in request.files:
+        flash("No file part")
+        return redirect(request.url)
+
+    file = request.files["file"]
+    file_handle = uuid.uuid4().hex
+    filename = file.filename
+
+    if filename == "":
+        flash("No selected file")
+        return redirect(request.url)
+
+    username = session.get("user")
+    user_id = None
+    with SQLite("data.sqlite") as cursor:
+        user_result = cursor.execute("SELECT * FROM user WHERE login=?", [username])
+        user_result = user_result.fetchone()
+        if user_result:
+            user_id = user_result[0]
+
+    with SQLite("data.sqlite") as cursor:
+        user_result = cursor.execute(
+            """
+        INSERT INTO files (filename, file_handle, owner) VALUES (?,?,?)                             
+        """,
+            [filename, file_handle, user_id],
+        )
+
+    file.save(Path("uploads") / file_handle)
+
+    return redirect(url_for("upload"))
