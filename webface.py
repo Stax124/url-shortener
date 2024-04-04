@@ -201,7 +201,7 @@ def upload_post():
     filename = file.filename
 
     if filename == "":
-        flash("No selected file")
+        flash("No selected file", "error")
         return redirect(request.url)
 
     username = session.get("user")
